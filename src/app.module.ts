@@ -4,11 +4,23 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MetaDataModule } from './meta-data/meta-data.module';
 import { UserTierListModule } from './user-tier-list/user-tier-list.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    // mongodb://localhost/arksurvey
-    MongooseModule.forRoot('mongodb://backend:123456@121.4.17.235:27017/arksurvey'),
+    ConfigModule.forRoot(),
+    MongooseModule.forRoot(
+      'mongodb://' +
+        process.env.DATABASE_USER +
+        ':' +
+        process.env.DATABASE_PASSWORD +
+        '@' +
+        process.env.DATABASE_HOST +
+        ':' +
+        process.env.DATABASE_PORT +
+        '/' +
+        process.env.DATABASE_NAME,
+    ),
     UserTierListModule,
     MetaDataModule,
   ],
