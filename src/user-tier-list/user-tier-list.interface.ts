@@ -6,7 +6,7 @@ export interface Tier {
   optIds: string[];
 }
 
-// 待商榷
+// todo
 export type TierListType = ['NORMAL', 'CC', 'ROUGE', 'CUSTOM'];
 
 export interface UserTierList extends Document {

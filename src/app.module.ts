@@ -6,9 +6,23 @@ import { MetaDataModule } from './meta-data/meta-data.module';
 import { UserTierListModule } from './user-tier-list/user-tier-list.module';
 import { ConfigModule } from '@nestjs/config';
 
+console.log('mongodb://' +
+        process.env.DATABASE_USER +
+        ':' +
+        process.env.DATABASE_PASSWORD +
+        '@' +
+        process.env.DATABASE_HOST +
+        ':' +
+        process.env.DATABASE_PORT +
+        '/' +
+        process.env.DATABASE_NAME)
+
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     MongooseModule.forRoot(
       'mongodb://' +
         process.env.DATABASE_USER +
