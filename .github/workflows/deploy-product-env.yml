@@ -1,16 +1,3 @@
-jobs:
-  deploy:
-    runs-on: ubuntu-latest # 使用ubuntu系统镜像运行自动化脚本
-    steps:
-      - uses: actions/checkout@master
-
-      - name: Deploy org
-        uses: s0/git-publish-subdir-action@develop
-        env:
-          REPO: 
-          BRANCH: main
-          FOLDER: dist
-          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
 name: Sync To Gitee
 on:
   push:
@@ -31,5 +18,5 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
         with:
-          source-repo: "git@gitee.com:Ark-survey/Ark-survey-backend.git"
-          destination-repo: "git@gitee.com:timothybu/Ark-survey-backend.git"
+          source-repo: 'git@gitee.com:Ark-survey/Ark-survey-backend.git'
+          destination-repo: 'git@gitee.com:timothybu/Ark-survey-backend.git'
