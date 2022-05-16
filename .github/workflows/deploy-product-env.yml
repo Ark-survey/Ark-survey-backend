@@ -3,7 +3,7 @@ name: gitee-sync
 on:
   push:
     branches:
-      - master
+      - main
     paths-ignore: # 下列文件的变更不触发部署，可以自行添加
       - README.md
       - LICENSE
@@ -34,7 +34,8 @@ jobs:
           # 必选，Gitee对应的用于创建仓库的token，https://gitee.com/profile/personal_access_tokens
           dst_token: ${{ secrets.GITEE_TOKEN }}
           # 如果是组织，指定组织即可，默认为用户 user
-          # account_type: org
+          src_account_type: org
+          dst_account_type: user
           # 直接取当前项目的仓库名
           static_list: ${{ github.event.repository.name }}
           # 还有黑、白名单，静态名单机制，可以用于更新某些指定库
