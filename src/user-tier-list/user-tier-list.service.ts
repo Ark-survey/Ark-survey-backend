@@ -73,14 +73,23 @@ export class UserTierListService {
     (await this.userTierListModel.find()).map((item) => allTierList.push(item.tierList));
     
     let avgTier : CharStatistics = {};
+    let validCount : number = 0;
 
     allTierList.forEach((tierList: Tier[]) => {
-      let values :Array<number> = []; //all values in a tierList。一个人的所有评级
+      if(tierList.length < 3){ //评级少于3个，不计入统计
+        return;
+      }
+
+      validCount += 1;
+
+      let values :Array<number> = []; //一个用户的所有评级 
       tierList.forEach((tier:Tier)=>{
         values.push(tier.value);
-      });//从tier中提取value
+      });
+      
+
       // this.logger.debug( "Before mapping ", values);
-      //TODO 只有1个评级怎么办
+      
       values = intervalMapping(values, 0, 5); //[min, max] 映射到[0,5]
       // this.logger.debug( "After mapping: ", values);
       values = values.map(item => 5-item) //reverse，越接近5评分越高
@@ -123,6 +132,7 @@ export class UserTierListService {
 
     return {
       count: allTierList.length,
+      validCount: validCount,
       charStatistics: avgTier,
     };
     

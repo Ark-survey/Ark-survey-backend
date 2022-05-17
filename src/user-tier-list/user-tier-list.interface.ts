@@ -62,6 +62,7 @@ export type CharStatistics = {
 //返回给前端的数据格式
 export interface AllTierListStatistics{
   readonly count: number; //样本数量
+  readonly validCount: number; //被纳入统计的样本数量
   charStatistics: CharStatistics //所有干员的统计数据
 }
 
