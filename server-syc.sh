@@ -2,7 +2,7 @@
 # rm ./yarn.lock
 git push
 git status  
-git pull --rebase origin master   #domnload data
+git pull
 git stash pop
 yarn
 yarn build
