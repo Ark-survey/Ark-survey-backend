@@ -2,6 +2,8 @@ import { Controller, Body, Post, HttpCode } from '@nestjs/common';
 import { RealIP } from 'nestjs-real-ip';
 import { Tier, TierListType, UserTierListSimple } from './user-tier-list.interface';
 import { UserTierListService } from './user-tier-list.service';
+//stat
+import { AllTierListStatistics } from './user-tier-list.interface';
 
 interface UserTierListResponse<T = unknown> {
   code: number;
@@ -97,8 +99,22 @@ export class UserTierListController {
 
   @Post('countAll')
   @HttpCode(200)
-  async countAll(): Promise<number> {
-    return await this.userTierListService.countAll();
+  async countAll(): Promise<UserTierListResponse<number>>{
+    return {
+      code: 200,
+      data: await this.userTierListService.countAll(),
+      message: 'Success.',
+    }
+  }
+
+  @Post('averageAll')
+  @HttpCode(200)
+  async averageAll(): Promise<UserTierListResponse<AllTierListStatistics>>{
+    return {
+      code: 200,
+      data: await this.userTierListService.averageAll(),
+      message: 'Success.',
+    };
   }
 }
 
