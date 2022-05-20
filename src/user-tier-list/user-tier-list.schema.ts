@@ -2,7 +2,7 @@ import { Schema } from 'mongoose';
 
 export const userTierListSchema = new Schema({
   id: { type: String, required: true },
-  name: { type: String, required: true },
+  name: { type: String, required: false },
   password: { type: String, required: false },
   type: { type: String, required: true },
   tierList: { type: Array, required: true },
