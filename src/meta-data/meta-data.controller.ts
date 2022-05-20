@@ -22,5 +22,3 @@ export class MetaDataController {
     };
   }
 }
-
-export class MetaDataTierListController {}
