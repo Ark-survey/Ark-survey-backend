@@ -1,5 +1,13 @@
 import { Document } from 'mongoose';
 
+/* tier example:
+{
+  "value": 0,
+  "characterKeys": [
+    "char_263_skadi"
+  ]
+}
+*/
 export interface Tier {
   value: number;
   name: string;
