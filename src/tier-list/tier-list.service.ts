@@ -13,13 +13,13 @@ export class TierListService {
         private readonly tierListModel: Model<TierList>,
       ) {}
 
-    public async getAllbyTierListId(userId: string): Promise<TierListDTO[]>{
-        this.logger.debug(userId)
+    public async getAllbyUserId(userId: string): Promise<TierListDTO[]>{
+        
         //{id} 会被转型为Schema定义的类型，然后做查询
         const res = 
             await this.tierListModel.find({userId}).lean() as TierList[];//ES6 shorthand 对象定义 
-
-        return res == null? null : res.map((item) => formatTierListDTO(item));
+        //When there are no matches find() returns `[]`
+        return  res.map((item) => formatTierListDTO(item));
     }
 
 
@@ -83,4 +83,8 @@ export class TierListService {
         //lean() 加速查询
           return (await this.tierListModel.find().lean() as TierList[]).map((item) => formatTierListDTO(item));
     }
+
+
+
+    // public async 
 }

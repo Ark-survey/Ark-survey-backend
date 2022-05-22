@@ -11,7 +11,11 @@ import { tierListSchema } from './tier-list.schema';
     ]),
   ],
   controllers: [TierListController],
-  providers: [TierListService]
+  providers: [TierListService],
+  //export tierListService for 统计模块
+  exports: [
+    TierListService,
+  ],
 })
 export class TierListModule {
 

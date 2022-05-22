@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { VersionAnnouncementModule } from './version-announcement/version-announcement.module';
 import { UserModule } from './user/user.module';
 import { TierListModule } from './tier-list/tier-list.module';
+import { TierListStatisticModule } from './tier-list-statistics/tier-list-statistics.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { TierListModule } from './tier-list/tier-list.module';
     VersionAnnouncementModule,
     UserModule,
     TierListModule,
+    TierListStatisticModule,
   ],
   controllers: [AppController,],
   providers: [AppService, ],

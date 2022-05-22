@@ -17,8 +17,8 @@ export class TierListController {
     public async getAllbyUserId(
       @Body() 
       request : GetAllByUserIdRequestDTO,
-    ): Promise<NormalResponse<TierListDTO[]>> { //TODO ? User除了自己定义的，还从Document获得了什么？
-      const res = await this.tierListService.getAllbyTierListId(request.userId);
+    ): Promise<NormalResponse<TierListDTO[]>> { 
+      const res = await this.tierListService.getAllbyUserId(request.userId);
     //   return res.length == 0
     //     ? {
     //         code: 400,

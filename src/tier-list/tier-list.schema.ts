@@ -6,7 +6,7 @@ export const tierListSchema = new Schema({
   name: { type: String, required: true }, //等级表名称
   key: { type: String, required: true }, //等级表key
   value: { type: String, required: true }, //权重
-  // 这样会为每个tier生成_id，
+  // 这样会为每个tier生成 _id，不需要
   // tiers: [{
   //   name : { type: String, required: true },
   //   value : { type: Number, required: true },
