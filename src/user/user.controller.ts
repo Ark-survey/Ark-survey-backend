@@ -19,18 +19,17 @@ export class UserController {
       @Body() //从requst body中提取数字，并填入变量body中
       request : GetByIdRequestDTO,
     ): Promise<NormalResponse<UserDTO>> { //TODO ? User除了自己定义的，还从Document获得了什么？
-      this.logger.debug(request)
       const res = await this.userService.getById(request.id);
-      return res.id
+      return res == null
         ? {
-            code: 200,
-            data: res,
-            message: 'success',
-          }
-        : {
-            code: 400,
-            message: `No eligible User with id = ${request.id}`,
-          };
+          code: 400,
+          message: `No eligible User with id = ${request.id}`,
+        }:
+          {
+          code: 200,
+          data: res,
+          message: 'success',
+        };
     }
 
     @Post('createOne')
@@ -59,7 +58,7 @@ export class UserController {
       return userDTO == null?
       {
         code: 400,
-        message: 'cannot find user',
+        message: `cannot find user with id ${request.id}`,
       }:{
         code: 200,
         data: userDTO,

@@ -16,9 +16,10 @@ export class UserService {
     public async getById(id: string): Promise<UserDTO>{
         this.logger.debug(id)
         //{id} 会被转型为Schema定义的类型，然后做查询
-        return formatUserDTO(
+        const res = 
             await this.userModel.findOne({id})//ES6 shorthand 对象定义 
-            );
+
+        return res == null? null : formatUserDTO(res);
     }
 
     public async createOne(dto : CreateUserRequestDTO, ip: string): Promise<UserDTO> {
@@ -32,19 +33,7 @@ export class UserService {
           }));
     }
 
-    //如果id对应的User不存在，则创建一个新的User，这河里吗
     public async updateOne(dto : UpdateUserRequestDTO, ip: string): Promise<UserDTO> {
-        // const res = await this.userModel.updateOne(
-        //     {id: dto.id },
-        //     {   
-        //     password: dto?.password , //id password
-        //     updatedIp: ip,
-        //     updatedDate: new Date().getTime(),
-        //     });
-        // // this.logger.debug(`modified cnt: ${res.modifiedCount}; acknowledged: ${res.acknowledged}; matched cnt: ${res.matchedCount}`)
-        // this.logger.debug(res)
-        // return ;
-        // return  res;
         const res = await this.userModel.findOneAndUpdate(
             { id: dto.id },
             {
@@ -63,6 +52,7 @@ export class UserService {
     
 
     public async findAll(): Promise<UserDTO[]> {
-        return (await this.userModel.find()).map((item) => formatUserDTO(item));;;
+      //lean() 加速查询
+        return (await this.userModel.find().lean()).map((item) => formatUserDTO(item));
       }
 }

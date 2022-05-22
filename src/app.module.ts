@@ -33,7 +33,7 @@ import { TierListModule } from './tier-list/tier-list.module';
     UserModule,
     TierListModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController,],
+  providers: [AppService, ],
 })
 export class AppModule {}
