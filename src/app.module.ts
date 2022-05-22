@@ -3,9 +3,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MetaDataModule } from './meta-data/meta-data.module';
-import { UserTierListModule } from './user-tier-list/user-tier-list.module';
+// import { UserTierListModule } from './user-tier-list/user-tier-list.module';
 import { ConfigModule } from '@nestjs/config';
 import { VersionAnnouncementModule } from './version-announcement/version-announcement.module';
+import { UserModule } from './user/user.module';
+import { TierListModule } from './tier-list/tier-list.module';
 
 @Module({
   imports: [
@@ -25,9 +27,11 @@ import { VersionAnnouncementModule } from './version-announcement/version-announ
         '/' +
         process.env.DATABASE_NAME,
     ),
-    UserTierListModule,
+    // UserTierListModule,
     MetaDataModule,
     VersionAnnouncementModule,
+    UserModule,
+    TierListModule,
   ],
   controllers: [AppController],
   providers: [AppService],
