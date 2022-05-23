@@ -6,6 +6,14 @@ import { OneModeStatistic } from "../tier-list-statistics.interface";
 const MIN_CHAR_CNT = 2; //需至少评价10位干员
 const MIN_TIER_CNT = 3; //需至少包含三个等级
 
+function whichInterval(val: number){
+    if(val < 1) return 0;
+    if(val < 2) return 1;
+    if(val < 3) return 2;
+    if(val < 4) return 3;
+    return 4;
+}
+
 export function computeAllModeStatistic(allTierList: TierListDTO[]): Record<string, OneModeStatistic>{
     const logger = new Logger(computeAllModeStatistic.name);
     const allModeStat: Record<string, OneModeStatistic> = {};
@@ -36,7 +44,17 @@ export function computeAllModeStatistic(allTierList: TierListDTO[]): Record<stri
                   oneModeStat.charStatistics[char] = {
                     avgValue: 0,
                     count: 0,
-                    distributions: []
+                    /**
+                     * 评分分布：
+                     * [
+                     *  0: [0,1)
+                     *  1: [1, 2)
+                     *  2: [2, 3)
+                     *  3: [3, 4)
+                     *  4: [4,5]
+                     * ]
+                     */
+                    distributions: [0,0,0,0,0] 
                   };
                 };
                 oneModeStat.charStatistics[char].count += 1; 
@@ -47,6 +65,7 @@ export function computeAllModeStatistic(allTierList: TierListDTO[]): Record<stri
                 const N : number= oneModeStat.charStatistics[char].count;
                 const new_avg = ((N - 1) / N ) * prev_avg + tier.value / N;
                 oneModeStat.charStatistics[char].avgValue = new_avg;
+                oneModeStat.charStatistics[char].distributions[whichInterval(tier.value)] += 1;
                 // logger.debug("oneModeStat.charStatistics[char].count = " + oneModeStat.charStatistics[char].count + "oneModeStat.charStatistics[char].avgValue = " + oneModeStat.charStatistics[char].avgValue)
               });
         });

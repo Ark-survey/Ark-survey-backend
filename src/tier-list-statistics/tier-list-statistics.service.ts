@@ -23,9 +23,9 @@ export class TierListStatisticService {
     //该方法将在45秒标记处每分钟运行一次
     @Cron('45 * * * * *')
     public async computeAllModeStatisticsAndSave() : Promise<AllModeStatisticsDTO>{
-        this.logger.debug("computeAllModeStatisticsAndSave ")
+        this.logger.debug("定时任务：computeAllModeStatisticsAndSave ")
         const allTierList = await this.tierListService.findAll();
-        this.logger.debug((allTierList).length)
+        // this.logger.debug((allTierList).length)
         const allModeStat = computeAllModeStatistic(allTierList);
 
         /**

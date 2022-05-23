@@ -14,7 +14,7 @@ export class TierListStatisticController {
     @HttpCode(200)
     public async createOne(): Promise<NormalResponse<AllModeStatisticsDTO>> {
         const res = await this.statisticService.computeAllModeStatisticsAndSave();
-        this.logger.debug('111', typeof(res), res instanceof mongoose.Document);
+        // this.logger.debug('111', typeof(res), res instanceof mongoose.Document);
         return {
         code: 200,
         data: res,

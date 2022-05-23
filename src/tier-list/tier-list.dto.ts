@@ -41,7 +41,7 @@ export class UpdateTierListRequestDTO {
 }
 
 /* 
-  前端向后端请求时，TierList的数据格式
+  前端向后端create Update请求时，TierList的数据格式
 
 */
 export interface TierListRequestDTO{
