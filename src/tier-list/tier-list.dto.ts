@@ -80,7 +80,9 @@ export class UpdateTierListRequestDTO {
   //?
   @IsString()
   public readonly userId: string;
-  // @ValidateNested()
+
+  @ValidateNested()
+  @Type(() => TierListRequestDTO)
   public readonly tierList: TierListRequestDTO
 }
 
