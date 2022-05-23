@@ -1,3 +1,4 @@
+import { IsString } from 'class-validator';
 import { User } from './user.interface';
 
 // user.dto.ts
@@ -8,12 +9,14 @@ export class CreateUserRequestDTO {
 
 /* UpdateUser 前端请求的数据格式 */
 export class UpdateUserRequestDTO {
+  @IsString()
   public readonly id: string;
   public readonly password?: string;
 }
 
 /* getById 前端请求的数据格式 */
 export class GetByIdRequestDTO{
+  @IsString()
   public readonly id: string;
 }
 

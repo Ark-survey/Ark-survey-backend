@@ -1,7 +1,48 @@
 import { Logger } from '@nestjs/common';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsArray, IsNotEmpty, IsNumber, IsNumberString, IsString, MaxLength, ValidateNested } from 'class-validator';
 import { TierList, Tier } from './tier-list.interface';
 // tierList.dto.ts
+class TierDTO {
+  @IsString()
+  name: string;
+  @IsNumber()
+  value: number;
+  @IsString({each: true})
+  characterKeys: string[];
+}
+
+
+/* 
+  前端向后端create Update请求时，TierList的数据格式
+
+*/
+class TierListRequestDTO{
+  //id由后端生成，前端无需包含
+  //create 中没有id
+  //update delete中有id
+  readonly id?: string; //TierList id
+  @IsString()
+  readonly userId: string; //User id
+  @IsString()
+  readonly name: string; //// List 名称
+  @IsString()
+  readonly key: string; //权重
+
+  @IsNumber()
+  readonly value: number; //权重
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => TierDTO)
+  readonly tiers: TierDTO[]; //等级表
+  //date由后端生成，前端无需包含
+  // readonly createdDate: string; //
+  // readonly updatedDate: string; //
+}
+
+
+
 
 /* getById 前端请求的数据格式 */
 //获取一个用户所有的等级表
@@ -21,7 +62,8 @@ export class GetByIdRequestDTO{
 export class CreateTierListRequestDTO {
   @IsString() //IsString 包含了 IsEmpty的功能
   public readonly userId: string;
-
+  @ValidateNested()
+  @Type(() => TierListRequestDTO)
   public readonly tierList: TierListRequestDTO
 }
 
@@ -36,28 +78,12 @@ export class DeleteTierListRequestDTO{
 /* UpdateTierList 前端请求的数据格式 */
 export class UpdateTierListRequestDTO {
   //?
+  @IsString()
   public readonly userId: string;
+  // @ValidateNested()
   public readonly tierList: TierListRequestDTO
 }
 
-/* 
-  前端向后端create Update请求时，TierList的数据格式
-
-*/
-export interface TierListRequestDTO{
-  //id由后端生成，前端无需包含
-  //create 中没有id
-  //update delete中有id
-  readonly id?: string; //TierList id
-  readonly userId: string; //User id
-  readonly name: string; //// List 名称
-  readonly key: string; //?
-  readonly value: number; //?
-  readonly tiers: Tier[]; //等级表
-  //date由后端生成，前端无需包含
-  // readonly createdDate: string; //
-  // readonly updatedDate: string; //
-}
 
 /* 
   后端返回给前端时，TierList的数据格式
