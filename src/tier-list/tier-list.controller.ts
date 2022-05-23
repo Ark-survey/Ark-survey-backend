@@ -2,6 +2,7 @@ import { Controller, Logger, Body, Post, HttpCode } from '@nestjs/common';
 import {  CreateTierListRequestDTO, DeleteTierListRequestDTO, GetAllByUserIdRequestDTO, GetByIdRequestDTO, TierListDTO, UpdateTierListRequestDTO,  } from './tier-list.dto';
 import { TierListService} from './tier-list.service';
 import { RealIP } from 'nestjs-real-ip';
+import { UserService } from 'src/user/user.service';
 
 
 
@@ -10,7 +11,10 @@ import { RealIP } from 'nestjs-real-ip';
 export class TierListController {
 
     private readonly logger = new Logger(TierListController.name)
-    constructor(private readonly tierListService: TierListService) {}
+    constructor(
+      private readonly tierListService: TierListService,
+      private readonly userService: UserService,
+      ) {}
 
     @Post('getAllbyUserId')
     @HttpCode(200)
@@ -33,6 +37,11 @@ export class TierListController {
       request: CreateTierListRequestDTO,
     ): Promise<NormalResponse<TierListDTO>> {
         //TODO 是否需要检查是否存在该User？
+      const user = await this.userService.getById(request.userId);
+      if(user == null) return{
+          code: 400,
+          message: `cannot find user with Userid = ${request.userId}`,
+      }
       return {
         code: 200,
         data: await this.tierListService.createOne(request),
@@ -40,12 +49,12 @@ export class TierListController {
       };
     }
     
-    @Post('deleteOne') //其实应该叫deleteById
-    public async deleteOne(
+    @Post('deleteById') //其实应该叫deleteById
+    public async deleteById(
       @Body()
       request: DeleteTierListRequestDTO
     ): Promise<NormalResponse> {
-      const res = await this.tierListService.deleteOne(request.id);
+      const res = await this.tierListService.deleteById(request.id);
       return res ? {
         code: 200,
         message: 'Success.',

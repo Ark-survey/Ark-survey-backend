@@ -14,7 +14,6 @@ export class TierListService {
       ) {}
 
     public async getAllbyUserId(userId: string): Promise<TierListDTO[]>{
-        
         //{id} 会被转型为Schema定义的类型，然后做查询
         const res = 
             await this.tierListModel.find({userId}).lean() as TierList[];//ES6 shorthand 对象定义 
@@ -35,7 +34,7 @@ export class TierListService {
 
     
     /** 删除TierList */
-    public async deleteOne(id: string): Promise<boolean> {
+    public async deleteById(id: string): Promise<boolean> {
         const res = await this.tierListModel.findOneAndDelete({ id });
         return res != null;
     }
