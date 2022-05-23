@@ -1,11 +1,13 @@
+import { Logger } from "@nestjs/common";
 import { TierListDTO } from "src/tier-list/tier-list.dto";
 import { Tier } from "src/tier-list/tier-list.interface";
 import { OneModeStatistic } from "../tier-list-statistics.interface";
 
-const MIN_CHAR_CNT = 10; //需至少评价10位干员
+const MIN_CHAR_CNT = 2; //需至少评价10位干员
 const MIN_TIER_CNT = 3; //需至少包含三个等级
 
 export function computeAllModeStatistic(allTierList: TierListDTO[]): Record<string, OneModeStatistic>{
+    const logger = new Logger(computeAllModeStatistic.name);
     const allModeStat: Record<string, OneModeStatistic> = {};
 
     allTierList.forEach((tierList: TierListDTO) =>{
@@ -38,13 +40,14 @@ export function computeAllModeStatistic(allTierList: TierListDTO[]): Record<stri
                   };
                 };
                 oneModeStat.charStatistics[char].count += 1; 
+                // logger.debug(tier.value)
       
                 /*计算平均值：AVG = (N-1)/N * PREV_AVG + cur / N */
                 const prev_avg : number= oneModeStat.charStatistics[char].avgValue;
                 const N : number= oneModeStat.charStatistics[char].count;
                 const new_avg = ((N - 1) / N ) * prev_avg + tier.value / N;
                 oneModeStat.charStatistics[char].avgValue = new_avg;
-                // this.logger.debug("oneModeStat.charStatistics[char].count = " + oneModeStat.charStatistics.get(char).count + "oneModeStat.charStatistics[char].avgValue = " + oneModeStat.charStatistics.get(char).avgValue)
+                // logger.debug("oneModeStat.charStatistics[char].count = " + oneModeStat.charStatistics[char].count + "oneModeStat.charStatistics[char].avgValue = " + oneModeStat.charStatistics[char].avgValue)
               });
         });
     });
@@ -53,11 +56,14 @@ export function computeAllModeStatistic(allTierList: TierListDTO[]): Record<stri
 }
 
 function tiersValueMapping(tierList: Tier[]){
+    const logger = new Logger(tiersValueMapping.name);
     let values :Array<number> = []; //一个用户的所有评级 
     tierList.forEach((tier:Tier)=>{
         values.push(tier.value);
     });
+    // logger.debug("Before mapping values =" + values);
     values = intervalMapping(values, 0, 5); //[min, max] 映射到[0,5]
+    // logger.debug("After mapping values =" + values);
     values = values.map(item => 5-item) //reverse，越接近5评分越高
     tierList.forEach((tier, i) =>{
         tier.value = values[i];
@@ -65,6 +71,7 @@ function tiersValueMapping(tierList: Tier[]){
 }
 
 function intervalMapping(a: Array<number>, left: number, right: number) :Array<number>{
+    const logger = new Logger(intervalMapping.name);
     const newLength = right - left;
     const minVal = Math.min(...a); //destructuring assignment
     const maxVal = Math.max(...a);
@@ -72,13 +79,13 @@ function intervalMapping(a: Array<number>, left: number, right: number) :Array<n
 
     const multiplyFactor = newLength / oldLength;
 
-    //add -minVal to elements in a; then Math.min(a) = 0
     a = a.map(item => item + -minVal);
 
     a = a.map(item => item * multiplyFactor);
+    // logger.debug("2:" + a);
 
     a = a.map(item => item + left)
-
+    // logger.debug("3:" + a);
     return a
 
 }

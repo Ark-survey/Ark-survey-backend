@@ -1,11 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { Cron } from '@nestjs/schedule';
 import { Model } from 'mongoose';
-import { TierListDTO } from 'src/tier-list/tier-list.dto';
-import { Tier } from 'src/tier-list/tier-list.interface';
 import { TierListService } from 'src/tier-list/tier-list.service';
 import { computeAllModeStatistic } from './stat-utils/average';
-import { AllModeStatistics, OneModeStatistic } from './tier-list-statistics.interface';
+import { AllModeStatisticsDTO } from './tier-list-statistics.dto';
+// import { formatAllModeStatistics } from './tier-list-statistics.dto';
+import { AllModeStatistics } from './tier-list-statistics.interface';
 
 @Injectable()
 export class TierListStatisticService {
@@ -18,18 +19,37 @@ export class TierListStatisticService {
         private readonly tierListService: TierListService,
     ){}
 
-    public async computeAllModeStatisticsAndSave() : Promise<AllModeStatistics>{
-        
+    //基本测试通过
+    //该方法将在45秒标记处每分钟运行一次
+    @Cron('45 * * * * *')
+    public async computeAllModeStatisticsAndSave() : Promise<AllModeStatisticsDTO>{
+        this.logger.debug("computeAllModeStatisticsAndSave ")
         const allTierList = await this.tierListService.findAll();
         this.logger.debug((allTierList).length)
         const allModeStat = computeAllModeStatistic(allTierList);
-        return await this.statisticsModel.create({
+
+        /**
+         * {flattenMaps: true} 的作用，
+         * //没有: toObject返回：{
+         *  data: {}
+         * }
+         * //有: toObject返回完整的POJO：{
+         *  data:{
+         *      ...
+         *  }
+         * }
+         */
+        const res = (await this.statisticsModel.create({
             data: allModeStat
-        });
+        })).toObject({ flattenMaps: true }) 
+
+        // this.logger.debug(res);
+        return res.data;
 
     }
-    public async getLatest(): Promise<AllModeStatistics>{
-        return await this.statisticsModel.findOne()
+    public async getLatest(): Promise<AllModeStatisticsDTO>{
+        const res = (await  this.statisticsModel.findOne().sort({_id: -1}).limit(1)).toObject({ flattenMaps: true });
+        return res.data;
     }
 }
 

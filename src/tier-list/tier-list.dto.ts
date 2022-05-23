@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { TierList, Tier } from './tier-list.interface';
 // tierList.dto.ts
@@ -80,6 +81,8 @@ export interface TierListDTO{
 */
 //有没有更方便的方法从已知类型提取属性到另一个类型？
 export function formatTierListDTO(obj: TierList) {
+  // const logger = new Logger(formatTierListDTO.name);
+  // logger.debug(typeof(obj.value))
   const response: TierListDTO = {
     id: obj.id,
     userId: obj.userId,

@@ -16,5 +16,6 @@ export interface OneModeStatistic{
 //extends Documents会报错
 //只能使用 & 
 export type AllModeStatistics =  Document & {
-    [key: string] : OneModeStatistic;
+    data: {[key: string] : OneModeStatistic}; //同schema保持一致
 };
+

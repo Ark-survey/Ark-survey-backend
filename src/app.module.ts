@@ -9,6 +9,7 @@ import { VersionAnnouncementModule } from './version-announcement/version-announ
 import { UserModule } from './user/user.module';
 import { TierListModule } from './tier-list/tier-list.module';
 import { TierListStatisticModule } from './tier-list-statistics/tier-list-statistics.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -16,6 +17,8 @@ import { TierListStatisticModule } from './tier-list-statistics/tier-list-statis
       isGlobal: true,
       envFilePath: '.env',
     }),
+    ScheduleModule.forRoot(),//定时任务
+    
     MongooseModule.forRoot(
       'mongodb://' +
         process.env.DATABASE_USER +
