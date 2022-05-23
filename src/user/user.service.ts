@@ -14,7 +14,7 @@ export class UserService {
       ) {}
 
     public async getById(id: string): Promise<UserDTO>{
-        this.logger.debug(id)
+        // this.logger.debug(id)
         //{id} 会被转型为Schema定义的类型，然后做查询
         const res = 
             await this.userModel.findOne({id})//ES6 shorthand 对象定义 

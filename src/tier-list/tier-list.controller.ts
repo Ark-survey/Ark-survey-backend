@@ -19,19 +19,9 @@ export class TierListController {
       request : GetAllByUserIdRequestDTO,
     ): Promise<NormalResponse<TierListDTO[]>> { 
       const res = await this.tierListService.getAllbyUserId(request.userId);
-    //   return res.length == 0
-    //     ? {
-    //         code: 400,
-    //         message: `No eligible TierList with userId  = ${request.userId}`,
-    //       }:
-    //         {
-    //         code: 200,
-    //         data: res,
-    //         message: 'success',
-    //       };
         return {
             code: 200,
-            data: res,
+            data: res, //无对应，返回空数组
             message: 'success',
         }
     }

@@ -69,7 +69,6 @@ export class TierListService {
             },
             {new: true}, //返回update后的document
             );
-        //   this.logger.debug(res)
 
         return {
             code: 200,
