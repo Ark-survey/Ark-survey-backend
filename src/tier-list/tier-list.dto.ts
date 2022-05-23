@@ -77,7 +77,6 @@ export class DeleteTierListRequestDTO{
 
 /* UpdateTierList 前端请求的数据格式 */
 export class UpdateTierListRequestDTO {
-  //?
   @IsString()
   public readonly userId: string;
 
