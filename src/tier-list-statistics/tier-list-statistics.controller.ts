@@ -1,6 +1,7 @@
-import { Controller, HttpCode, Logger, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Logger, Post } from '@nestjs/common';
 import mongoose from 'mongoose';
-import { AllModeStatisticsDTO } from './tier-list-statistics.dto';
+import { RealIP } from 'nestjs-real-ip';
+import { AllModeStatisticsDTO, GetStatisticsByKeysDTO } from './tier-list-statistics.dto';
 import { AllModeStatistics } from './tier-list-statistics.interface';
 import { TierListStatisticService } from './tier-list-statistics.service';
 
@@ -31,5 +32,36 @@ export class TierListStatisticController {
         data: res,
         message: 'success',
       };
+    }
+
+    @Post('getLatestTest')
+    @HttpCode(200)
+    public async getLatestTest(): Promise<NormalResponse<AllModeStatistics>> {
+        const res = await this.statisticService.getLatestTest();
+      return {
+        code: 200,
+        data: res,
+        message: 'success',
+      };
+    }
+
+    // @Post('getLatestByKeys')
+    // @HttpCode(200)
+    // public async getLatestByKeys(
+    //   @Body() request: GetStatisticsByKeysDTO
+    // ): Promise<NormalResponse<AllModeStatisticsDTO>> {
+    //     const res = await this.statisticService.getLatestByKeys(request.keys);
+        
+    //   return {
+    //     code: 200,
+    //     data: res,
+    //     message: 'success',
+    //   };
+    // }
+
+
+    @Get('my-ip')
+    get(@RealIP() ip: string): string {
+      return ip;
     }
 }

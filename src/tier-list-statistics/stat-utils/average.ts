@@ -3,7 +3,7 @@ import { TierListDTO } from "src/tier-list/tier-list.dto";
 import { Tier } from "src/tier-list/tier-list.interface";
 import { OneModeStatistic } from "../tier-list-statistics.interface";
 
-const MIN_CHAR_CNT = 10; //需至少评价10位干员
+const MIN_CHAR_CNT = 2; //需至少评价10位干员
 const MIN_TIER_CNT = 3; //需至少包含三个等级
 
 function whichInterval(val: number){

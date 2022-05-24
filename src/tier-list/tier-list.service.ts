@@ -13,17 +13,25 @@ export class TierListService {
         private readonly tierListModel: Model<TierList>,
       ) {}
 
-    public async getAllbyUserId(userId: string): Promise<TierListDTO[]>{
+    public async getAllbyUserId(userId: string): Promise<Record<string, TierListDTO>>{
         //{id} 会被转型为Schema定义的类型，然后做查询
-        const res = 
-            await this.tierListModel.find({userId}).lean() as TierList[];//ES6 shorthand 对象定义 
-        //When there are no matches find() returns `[]`
-        return  res.map((item) => formatTierListDTO(item));
+        const userTierLists = (
+            await this.tierListModel.find({userId}).lean() as TierList[]
+            ).map((item) => formatTierListDTO(item))
+            ; 
+
+        const res = {};
+        userTierLists.forEach((tierList) =>{
+            res[tierList.key] = tierList
+        })
+        return res;
+
     }
 
 
 
     public async createOne(dto : CreateTierListRequestDTO): Promise<TierListDTO> {
+        this.logger.debug(dto.tierList.tiers[0].name.length)
         return formatTierListDTO(await this.tierListModel.create({
             ...dto.tierList,
             id: uuidv4(),

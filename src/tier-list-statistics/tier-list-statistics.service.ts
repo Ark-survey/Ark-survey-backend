@@ -10,6 +10,7 @@ import { AllModeStatistics } from './tier-list-statistics.interface';
 
 @Injectable()
 export class TierListStatisticService {
+
     private readonly logger = new Logger(TierListStatisticService.name);
     
 
@@ -20,8 +21,8 @@ export class TierListStatisticService {
     ){}
 
     //基本测试通过
-    //该方法将在45秒标记处每分钟运行一次
-    @Cron('45 * * * * *')
+    //该方法将在分钟数整除5的时候运行一次，比如15分0秒，20分0秒
+    @Cron('0 */5 * * * *')
     public async computeAllModeStatisticsAndSave() : Promise<AllModeStatisticsDTO>{
         this.logger.debug("定时任务：computeAllModeStatisticsAndSave ")
         const allTierList = await this.tierListService.findAll();
@@ -51,6 +52,25 @@ export class TierListStatisticService {
         const res = (await  this.statisticsModel.findOne().sort({_id: -1}).limit(1)).toObject({ flattenMaps: true });
         return res.data;
     }
+
+    public async getLatestTest(): Promise<AllModeStatistics>{
+        const res = (await  this.statisticsModel.findOne().sort({_id: -1}).limit(1));
+        return res;
+    }
+
+
+    // public async getLatestByKeys(keys: string[]) : Promise<AllModeStatisticsDTO> {
+    //     const all = this.getLatest();
+    //     const res: AllModeStatisticsDTO = {}
+    //     for(const key of keys){
+    //         if(key in all){
+    //             res[key] = all[key]
+    //         }else{
+    //             res[key] = null
+    //         }
+    //     }
+    //     return res;
+    // }
 }
 
 

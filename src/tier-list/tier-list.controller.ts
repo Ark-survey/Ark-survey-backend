@@ -21,7 +21,7 @@ export class TierListController {
     public async getAllbyUserId(
       @Body() 
       request : GetAllByUserIdRequestDTO,
-    ): Promise<NormalResponse<TierListDTO[]>> { 
+    ): Promise<NormalResponse<Record<string, TierListDTO>>> { 
       const res = await this.tierListService.getAllbyUserId(request.userId);
         return {
             code: 200,

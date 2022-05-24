@@ -25,11 +25,11 @@ export class GetByIdRequestDTO{
 */
 export class UserDTO{
   readonly id: string; // User 唯一 ID
-  readonly password?: string; // 操作密码
-  readonly createdIp: string;
-  readonly createdDate: string;
-  readonly updatedIp: string;
-  readonly updatedDate: number; 
+  // readonly password?: string; // 操作密码
+  // readonly createdIp: string;
+  // readonly createdDate: string;
+  // readonly updatedIp: string;
+  // readonly updatedDate: number; 
 }
 
 /*
@@ -39,11 +39,11 @@ export class UserDTO{
 export function formatUserDTO(obj: User) {
   const response: UserDTO = {
     id: obj.id,
-    password: obj?.password,
-    createdIp: obj.createdIp,
-    createdDate: obj.createdDate,
-    updatedDate: obj.updatedDate,
-    updatedIp: obj.updatedIp,
+    // password: obj?.password,
+    // createdIp: obj.createdIp,
+    // createdDate: obj.createdDate,
+    // updatedDate: obj.updatedDate,
+    // updatedIp: obj.updatedIp,
 
   };
   return response;
