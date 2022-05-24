@@ -22,7 +22,7 @@ export class TierListStatisticService {
 
     //基本测试通过
     //该方法将在分钟数整除5的时候运行一次，比如15分0秒，20分0秒
-    @Cron('0 */5 * * * *')
+    @Cron('0 */3 * * * *')
     public async computeAllModeStatisticsAndSave() : Promise<AllModeStatisticsDTO>{
         this.logger.debug("定时任务：computeAllModeStatisticsAndSave ")
         const allTierList = await this.tierListService.findAll();
@@ -53,24 +53,25 @@ export class TierListStatisticService {
         return res.data;
     }
 
-    public async getLatestTest(): Promise<AllModeStatistics>{
-        const res = (await  this.statisticsModel.findOne().sort({_id: -1}).limit(1));
-        return res;
-    }
-
-
-    // public async getLatestByKeys(keys: string[]) : Promise<AllModeStatisticsDTO> {
-    //     const all = this.getLatest();
-    //     const res: AllModeStatisticsDTO = {}
-    //     for(const key of keys){
-    //         if(key in all){
-    //             res[key] = all[key]
-    //         }else{
-    //             res[key] = null
-    //         }
-    //     }
+    // public async getLatestTest(): Promise<AllModeStatistics>{
+    //     const res = (await  this.statisticsModel.findOne().sort({_id: -1}).limit(1));
     //     return res;
     // }
+
+
+    public async getLatestByKeys(keys: string[]) : Promise<AllModeStatisticsDTO> {
+        const all = await this.getLatest();
+        const res: AllModeStatisticsDTO = {}
+        this.logger.debug(Object.keys(all))
+        for(const key of keys){
+            if(key in all){
+                res[key] = all[key]
+            }else{
+                res[key] = null
+            }
+        }
+        return res;
+    }
 }
 
 
