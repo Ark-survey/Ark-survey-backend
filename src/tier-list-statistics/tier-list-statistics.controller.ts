@@ -34,30 +34,30 @@ export class TierListStatisticController {
       };
     }
 
-    @Post('getLatestTest')
-    @HttpCode(200)
-    public async getLatestTest(): Promise<NormalResponse<AllModeStatistics>> {
-        const res = await this.statisticService.getLatestTest();
-      return {
-        code: 200,
-        data: res,
-        message: 'success',
-      };
-    }
-
-    // @Post('getLatestByKeys')
+    // @Post('getLatestTest')
     // @HttpCode(200)
-    // public async getLatestByKeys(
-    //   @Body() request: GetStatisticsByKeysDTO
-    // ): Promise<NormalResponse<AllModeStatisticsDTO>> {
-    //     const res = await this.statisticService.getLatestByKeys(request.keys);
-        
+    // public async getLatestTest(): Promise<NormalResponse<AllModeStatistics>> {
+    //     const res = await this.statisticService.getLatestTest();
     //   return {
     //     code: 200,
     //     data: res,
     //     message: 'success',
     //   };
     // }
+
+    @Post('getLatestByKeys')
+    @HttpCode(200)
+    public async getLatestByKeys(
+      @Body() request: GetStatisticsByKeysDTO
+    ): Promise<NormalResponse<AllModeStatisticsDTO>> {
+        const res = await this.statisticService.getLatestByKeys(request.keys);
+        
+      return {
+        code: 200,
+        data: res,
+        message: 'success',
+      };
+    }
 
 
     @Get('my-ip')
