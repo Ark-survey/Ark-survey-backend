@@ -2,17 +2,6 @@ import { IsString } from "class-validator";
 import { Character, CharBox } from "./char-box.interface";
 import { charBox } from "./char-box.schema";
 
-export class CharBoxRequestDTO{
-    id?: string;
-    userId: string; 
-    characterKeys: Record<string, Character>;
-}
-
-export class GetCharBoxByUserIdDTO{
-    @IsString()
-    public readonly userId: string; // User Id
-}
-
 /**
  * 创建CharBox
  * 合法性判断：
@@ -21,15 +10,14 @@ export class GetCharBoxByUserIdDTO{
  *  
  */
 export class CreateCharBoxDTO{
-    charBox: CharBoxRequestDTO;
+    // id?: string; //createOne不需包含，updateOne需要包含
+    userId: string; 
+    characterKeys: Record<string, Character>;
+}
+ export class CreateOneRequestDTO{
+    charBox: CreateCharBoxDTO;
 }
 
-/**
- * deleteByid 不开放？
- */
-//  export class CreateOneDTO{
-//     charBox: CharBox;
-// }
 /**
  * 更新CharBox
  * 合法性判断：
@@ -38,12 +26,40 @@ export class CreateCharBoxDTO{
  *      
  *  
  */
-export class updateOneDTO{
-    charBox: CharBox;
+export class UpdateCharBoxDTO{
+    id: string; //createOne不需包含，updateOne需要包含
+    userId: string; 
+    characterKeys: Record<string, Character>;
 }
+ export class UpdateOneRequestDTO{
+    charBox: UpdateCharBoxDTO;
+}
+
+/**
+ * 查询CharBox
+ */
+export class GetCharBoxByUserIdDTO{
+    @IsString()
+    public readonly userId: string; // User Id
+}
+
+
+
+/**
+ * deleteByid 不开放？
+ */
+export class DeleteOneRequestDTO{
+    @IsString()
+    public readonly id: string;
+    @IsString()
+    public readonly userId: string;
+
+}
+
 
 /* 
   后端返回给前端时，CharBox的数据格式
+  不需要是interface，因为不需要做自动类型检查
 */
 export interface CharBoxResponseDTO{
     id: string,
@@ -55,7 +71,7 @@ export interface CharBoxResponseDTO{
 export function formatCharBoxDTO(obj: CharBox): CharBoxResponseDTO{
     const dto = {
         id: obj.id,
-        // userId: obj.userId,
+        // userId: obj.userId,// 创建的时候保存，不可更改，永远不返回
         characterKeys: obj.characterKeys,
         updatedDate: obj.updatedDate,
     }
