@@ -17,9 +17,14 @@ export interface Character{
     skills: Record<string, Skill>,
     modules: Record<string, Module>,
     moduleUse: string,
+    skinUse: string,
     skillUse: string,
     favorite:  boolean,
 }
+
+
+
+
 
 export interface CharBox extends Document{
     id: string,

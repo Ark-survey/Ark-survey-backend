@@ -1,6 +1,43 @@
-import { IsString } from "class-validator";
-import { Character, CharBox } from "./char-box.interface";
-import { charBox } from "./char-box.schema";
+import { Type } from "class-transformer";
+import { IsInt, IsNumber, isNumber, IsString, Max, Min, ValidateNested } from "class-validator";
+import {  CharBox } from "./char-box.interface";
+import { character, charBox } from "./char-box.schema";
+
+//不export，仅在DTO文件中做类型检查
+class Module{
+    // @IsString()
+    key: string;
+    // @IsInt()
+    // @Max(3)
+    // @Min(1)
+    level: number;
+}
+class Skill{
+    // @IsString()
+    key: string;
+    // @IsInt()
+    // @Max(10)
+    // @Min(1)
+    level: number;
+}
+class Character{
+    // @IsString()
+    key: string;
+    // @IsNumber()
+    // @Max(6)
+    // @Min(0) //0潜1潜
+    potentialLevel: number;
+    elite: number;
+    level: number;
+    trust: number;
+    skills: Record<string, Skill>;
+    modules: Record<string, Module>;
+    moduleUse: string;
+    skinUse: string;
+    skillUse: string;
+    favorite:  boolean;
+}
+
 
 /**
  * 创建CharBox
@@ -11,10 +48,18 @@ import { charBox } from "./char-box.schema";
  */
 export class CreateCharBoxDTO{
     // id?: string; //createOne不需包含，updateOne需要包含
+    @IsString()
     userId: string; 
+    // @ValidateNested({each: true})
+    // @Type(() => Character)
+    /**
+     * TODO 怎么对Record做类型检查？内置validator不支持Record
+     * */
     characterKeys: Record<string, Character>;
 }
  export class CreateOneRequestDTO{
+    @ValidateNested({each: true})
+    @Type(() => CreateCharBoxDTO)
     charBox: CreateCharBoxDTO;
 }
 
@@ -27,11 +72,15 @@ export class CreateCharBoxDTO{
  *  
  */
 export class UpdateCharBoxDTO{
+    @IsString()
     id: string; //createOne不需包含，updateOne需要包含
+    @IsString()
     userId: string; 
     characterKeys: Record<string, Character>;
 }
  export class UpdateOneRequestDTO{
+    @ValidateNested({each: true})
+    @Type(() => UpdateCharBoxDTO)
     charBox: UpdateCharBoxDTO;
 }
 
@@ -59,7 +108,7 @@ export class DeleteOneRequestDTO{
 
 /* 
   后端返回给前端时，CharBox的数据格式
-  不需要是interface，因为不需要做自动类型检查
+  不需要是class，因为不需要做自动类型检查
 */
 export interface CharBoxResponseDTO{
     id: string,
@@ -69,6 +118,7 @@ export interface CharBoxResponseDTO{
 }
 
 export function formatCharBoxDTO(obj: CharBox): CharBoxResponseDTO{
+
     const dto = {
         id: obj.id,
         // userId: obj.userId,// 创建的时候保存，不可更改，永远不返回

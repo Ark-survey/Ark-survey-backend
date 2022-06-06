@@ -12,6 +12,9 @@ export class CharBoxController {
         private readonly userService: UserService,
         ){}
     
+    /**
+   * 测试通过
+   */
     @Post('getCharBoxByUserId')
     async getCharBoxByUserId(
         @Body()
@@ -30,6 +33,9 @@ export class CharBoxController {
         };
     }
 
+    /**
+     * user未创建过charbox且在user表中存在（测试通过）
+     */
     @Post('createOne')
     // @HttpCode(200)
     public async createOne(
@@ -59,6 +65,9 @@ export class CharBoxController {
       };
     }
 
+    /**
+     * User的charbox存在且id匹配（测试通过）
+     */
     @Post('updateOne')
     // @HttpCode(200)
     public async updateOne(
@@ -87,7 +96,7 @@ export class CharBoxController {
       if(false == (await this.charBoxService.isExistAndMatch(request.charBox.userId, request.charBox.id))){
         return {
           code: 400,
-          message: `ERROR: userId ${request.charBox.userId}'s CharBox not found or id ${request.charBox.id} don't match.`
+          message: `ERROR: userId ${request.charBox.userId}'s CharBox not found or charBox id ${request.charBox.id} don't match.`
         }
       }
 
@@ -98,6 +107,9 @@ export class CharBoxController {
       };
     }
     
+    /**
+     * User的charbox存在且id匹配（测试通过）
+     */
     @Post('deleteById')
     public async deleteById(
       @Body()
@@ -111,9 +123,11 @@ export class CharBoxController {
         }
       }
 
-      return {
+      return null == await this.charBoxService.deleteById(request.userId, request.id)?{
+        code: 400,
+        message: 'Delete Failed',
+      }:{
         code: 200,
-        data: await this.charBoxService.deleteById(request.id, request.userId),
         message: 'success',
       };
     }

@@ -26,18 +26,25 @@ export class CharBoxService {
           }));
     }
 
-    async updateOne(dto: UpdateCharBoxDTO): Promise<CharBoxResponseDTO>{        
-        return formatCharBoxDTO(await this.charBoxModel.findOneAndUpdate(
+    async updateOne(dto: UpdateCharBoxDTO): Promise<CharBoxResponseDTO>{  
+        
+        const res = formatCharBoxDTO(await this.charBoxModel.findOneAndUpdate(
             { id: dto.id },
             {
             characterKeys: dto.characterKeys,
             updatedDate: new Date().getTime(),
-          }));
+          },
+          {new: true}, //返回update后的document
+          ));
+        // this.logger.debug(res.characterKeys['chen_2'])      
+        return res;
     }
 
     async deleteById(userId:string, id:string): Promise<CharBoxResponseDTO>{        
-        return formatCharBoxDTO(await this.charBoxModel.findOneAndDelete(
-            { id }));
+        const res = await this.charBoxModel.findOneAndDelete(
+            { id });
+            // this.logger.debug(res)
+        return res;
     }
 
 
