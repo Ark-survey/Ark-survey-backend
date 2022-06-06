@@ -33,6 +33,7 @@ export const character = new Schema({
   }, 
   moduleUse: { type: String, required: true },
   skillUse: { type: String, required: true },
+  skinUse:{type: String, required: true},
   favorite:  { type: Boolean, required: true },
 },
 {_id:false} //  不需要为每个tier生成 _id

@@ -35,7 +35,7 @@ export class CharBoxService {
           }));
     }
 
-    async deleteById(id:string, userId:string): Promise<CharBoxResponseDTO>{        
+    async deleteById(userId:string, id:string): Promise<CharBoxResponseDTO>{        
         return formatCharBoxDTO(await this.charBoxModel.findOneAndDelete(
             { id }));
     }
@@ -71,7 +71,7 @@ export class CharBoxService {
      * @param charBoxId 
      * @returns 
      */
-    async isExistAndMatcch(userId: string, charBoxId: string): Promise<boolean>{
+    async isExistAndMatch(userId: string, charBoxId: string): Promise<boolean>{
         const userCharBox = await this.getCharBoxByUserId(userId);
         if(userCharBox == null) return false;
         if(userCharBox.id != charBoxId) return false;
