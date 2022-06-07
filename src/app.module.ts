@@ -10,6 +10,7 @@ import { UserModule } from './user/user.module';
 import { TierListModule } from './tier-list/tier-list.module';
 import { TierListStatisticModule } from './tier-list-statistics/tier-list-statistics.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { CharBoxModule } from './char-box/char-box.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     UserModule,
     TierListModule,
     TierListStatisticModule,
+    CharBoxModule,
   ],
   controllers: [AppController,],
   providers: [AppService, ],

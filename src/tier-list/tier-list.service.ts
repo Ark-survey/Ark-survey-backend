@@ -31,7 +31,7 @@ export class TierListService {
 
 
     public async createOne(dto : CreateTierListRequestDTO): Promise<TierListDTO> {
-        this.logger.debug(dto.tierList.tiers[0].name.length)
+        // this.logger.debug(dto.tierList.tiers[0].name.length)
         return formatTierListDTO(await this.tierListModel.create({
             ...dto.tierList,
             id: uuidv4(),
