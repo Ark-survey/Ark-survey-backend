@@ -21,12 +21,12 @@ export const character = new Schema({
   elite: { type: Number, required: true },
   level: { type: Number, required: true },
   trust: { type: Number, required: true },
-  skills: { //Record<角色名, charStatistic>
+  skills: { //技能
     type: Map, 
     of: skill,
     required: true
   }, 
-  modules: { //Record<角色名, charStatistic>
+  modules: { //模组
     type: Map, 
     of: module,
     required: true

@@ -56,11 +56,10 @@ export class CharBoxController {
           message: `userId ${request.charBox.userId}'s CharBox already exists, please use updateOne instead.`
         }
       }
-
-      //create
+      const res = await this.charBoxService.createOne(request.charBox);
       return {
         code: 200,
-        data: await this.charBoxService.createOne(request.charBox),
+        data: res,
         message: 'success',
       };
     }
