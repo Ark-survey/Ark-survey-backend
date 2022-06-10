@@ -36,8 +36,7 @@ export class CharBoxService {
             updatedDate: new Date().getTime(),
           },
           {new: true}, //返回update后的document
-          ).lean());
-        // this.logger.debug(res.characterKeys['chen_2'])      
+          ).lean());  
         return res;
     }
 
