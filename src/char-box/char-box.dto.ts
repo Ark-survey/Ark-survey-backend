@@ -118,7 +118,6 @@ export interface CharBoxResponseDTO{
 }
 
 export function formatCharBoxDTO(obj: CharBox): CharBoxResponseDTO{
-
     const dto = {
         id: obj.id,
         // userId: obj.userId,// 创建的时候保存，不可更改，永远不返回

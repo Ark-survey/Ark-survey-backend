@@ -14,16 +14,17 @@ export class CharBoxService {
     ){}
 
     async getCharBoxByUserId(userId: string): Promise<CharBoxResponseDTO>{
-        const charBox = await this.charBoxModel.findOne({userId});
+        const charBox = await this.charBoxModel.findOne({userId}).lean() as CharBox;
         return charBox == null? null:formatCharBoxDTO(charBox);
     }
 
     async createOne(dto: CreateCharBoxDTO): Promise<CharBoxResponseDTO>{
-        return formatCharBoxDTO(await this.charBoxModel.create({
+        // this.logger.debug(dto.characterKeys)
+        return formatCharBoxDTO((await this.charBoxModel.create({
             ...dto,
             id: uuidv4(),
             updatedDate: new Date().getTime(),
-          }));
+          })).toObject({ flattenMaps: true }));
     }
 
     async updateOne(dto: UpdateCharBoxDTO): Promise<CharBoxResponseDTO>{  
@@ -35,14 +36,14 @@ export class CharBoxService {
             updatedDate: new Date().getTime(),
           },
           {new: true}, //返回update后的document
-          ));
+          ).lean());
         // this.logger.debug(res.characterKeys['chen_2'])      
         return res;
     }
 
     async deleteById(userId:string, id:string): Promise<CharBoxResponseDTO>{        
         const res = await this.charBoxModel.findOneAndDelete(
-            { id });
+            { id }).lean();
             // this.logger.debug(res)
         return res;
     }
