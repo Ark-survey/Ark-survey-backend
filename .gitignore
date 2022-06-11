@@ -25,6 +25,7 @@ pm2.json
 .project
 .classpath
 .c9/
+.sh
 *.launch
 .settings/
 *.sublime-workspace

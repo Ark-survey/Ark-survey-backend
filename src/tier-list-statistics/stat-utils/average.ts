@@ -33,7 +33,7 @@ export function computeAllModeStatistic(allTierList: TierListDTO[]): Record<stri
 
     // 超过 14 天不计有效
     const validDay = 14;
-    if (new Date().getTime() - parseInt(tierList.updatedDate) * 1000 > 86400 * validDay * 1000) return;
+    if (new Date().getTime() - parseInt(tierList.updatedDate) > 86400 * validDay * 1000) return;
     //tierList 是否 valid
     if (isValidTierList(tierList.tiers) == false) return;
     oneModeStat.validCount += 1; //有效等级表数
