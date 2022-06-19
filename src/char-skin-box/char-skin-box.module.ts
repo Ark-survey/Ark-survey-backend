@@ -6,12 +6,7 @@ import { charSkinBox } from './char-skin-box.schema';
 import { CharSkinBoxService } from './char-skin-box.service';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      { name: 'CharSkinBox', schema: charSkinBox },
-    ]),
-    UserModule, 
-  ],
+  imports: [MongooseModule.forFeature([{ name: 'CharSkinBox', schema: charSkinBox }]), UserModule],
   controllers: [CharSkinBoxController],
   providers: [CharSkinBoxService],
 })
