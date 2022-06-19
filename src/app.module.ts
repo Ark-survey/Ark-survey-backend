@@ -11,6 +11,7 @@ import { TierListModule } from './tier-list/tier-list.module';
 import { TierListStatisticModule } from './tier-list-statistics/tier-list-statistics.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CharBoxModule } from './char-box/char-box.module';
+import { CharSkinBoxModule } from './char-skin-box/char-skin-box.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { CharBoxModule } from './char-box/char-box.module';
     TierListModule,
     TierListStatisticModule,
     CharBoxModule,
+    CharSkinBoxModule,
   ],
   controllers: [AppController,],
   providers: [AppService, ],
