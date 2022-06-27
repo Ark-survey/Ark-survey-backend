@@ -46,9 +46,11 @@ class TierListRequestDTO{
 
 /* getById 前端请求的数据格式 */
 //获取一个用户所有的等级表
-export class GetAllByUserIdRequestDTO{
+export class getOneRequestDTO{
   @IsString()
   public readonly userId: string; // User Id
+  @IsString()
+  public readonly key: string; // Tier list key
 }
 
 /* getById 前端请求的数据格式 */
@@ -60,8 +62,6 @@ export class GetByIdRequestDTO{
 
 /* CreateTierList 前端请求的数据格式 */
 export class CreateTierListRequestDTO {
-  @IsString() //IsString 包含了 IsEmpty的功能
-  public readonly userId: string;
   @ValidateNested()
   @Type(() => TierListRequestDTO)
   public readonly tierList: TierListRequestDTO
@@ -77,9 +77,6 @@ export class DeleteTierListRequestDTO{
 
 /* UpdateTierList 前端请求的数据格式 */
 export class UpdateTierListRequestDTO {
-  @IsString()
-  public readonly userId: string;
-
   @ValidateNested()
   @Type(() => TierListRequestDTO)
   public readonly tierList: TierListRequestDTO
